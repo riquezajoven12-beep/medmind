@@ -1,11 +1,11 @@
 // ============================================
-// Maps CRUD API — /api/maps
+// Maps CRUD API - /api/maps
 // ============================================
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerSupabase } from '@/lib/supabase';
+import { createServerSupabase } from '@/lib/supabase-server';
 
-// GET — List user's maps
+// GET - List user's maps
 export async function GET(req: NextRequest) {
   const supabase = await createServerSupabase();
   const { data: { user } } = await supabase.auth.getUser();
@@ -36,7 +36,7 @@ export async function GET(req: NextRequest) {
   return NextResponse.json(data);
 }
 
-// POST — Create new map
+// POST - Create new map
 export async function POST(req: NextRequest) {
   const supabase = await createServerSupabase();
   const { data: { user } } = await supabase.auth.getUser();
@@ -101,7 +101,7 @@ export async function POST(req: NextRequest) {
   return NextResponse.json(data);
 }
 
-// PATCH — Update map
+// PATCH - Update map
 export async function PATCH(req: NextRequest) {
   const supabase = await createServerSupabase();
   const { data: { user } } = await supabase.auth.getUser();
@@ -136,7 +136,7 @@ export async function PATCH(req: NextRequest) {
   return NextResponse.json(data);
 }
 
-// DELETE — Delete map
+// DELETE - Delete map
 export async function DELETE(req: NextRequest) {
   const supabase = await createServerSupabase();
   const { data: { user } } = await supabase.auth.getUser();
