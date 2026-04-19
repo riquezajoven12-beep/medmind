@@ -1,12 +1,12 @@
 // ============================================
-// Collaborate API — /api/collaborate
+// Collaborate API - /api/collaborate
 // Manage sharing, invitations, and permissions
 // ============================================
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerSupabase } from '@/lib/supabase';
+import { createServerSupabase } from '@/lib/supabase-server';
 
-// GET — Get collaborators for a map
+// GET - Get collaborators for a map
 export async function GET(req: NextRequest) {
   const supabase = await createServerSupabase();
   const { data: { user } } = await supabase.auth.getUser();
@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
   // Get collaborator profiles
   const collaboratorIds = map.shared_with || [];
   let collaborators: any[] = [];
-  
+
   if (collaboratorIds.length > 0) {
     const { data: profiles } = await supabase
       .from('profiles')
@@ -60,7 +60,7 @@ export async function GET(req: NextRequest) {
   });
 }
 
-// POST — Add/remove collaborator, toggle public
+// POST - Add/remove collaborator, toggle public
 export async function POST(req: NextRequest) {
   const supabase = await createServerSupabase();
   const { data: { user } } = await supabase.auth.getUser();
