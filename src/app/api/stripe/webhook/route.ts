@@ -1,10 +1,10 @@
 // ============================================
-// Stripe Webhook — /api/stripe/webhook
+// Stripe Webhook - /api/stripe/webhook
 // ============================================
 
 import { NextRequest, NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
-import { createAdminClient } from '@/lib/supabase';
+import { createAdminClient } from '@/lib/supabase-server';
 import type Stripe from 'stripe';
 
 const relevantEvents = new Set([
