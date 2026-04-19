@@ -1,10 +1,10 @@
 // ============================================
-// Export API — /api/export
+// Export API - /api/export
 // Generates PPTX, DOCX, PDF from mind map data
 // ============================================
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerSupabase } from '@/lib/supabase';
+import { createServerSupabase } from '@/lib/supabase-server';
 
 export async function POST(req: NextRequest) {
   const supabase = await createServerSupabase();
@@ -80,7 +80,7 @@ function generatePPTX(nodes: any[], title: string) {
     if (children.length > 0) {
       slides.push({
         title: root.data?.title || 'Topic',
-        items: children.map((c: any) => c.data?.title + (c.data?.content ? ` — ${c.data.content.substring(0, 80)}` : '')),
+        items: children.map((c: any) => c.data?.title + (c.data?.content ? ` - ${c.data.content.substring(0, 80)}` : '')),
         level: 1,
       });
 
@@ -90,7 +90,7 @@ function generatePPTX(nodes: any[], title: string) {
           slides.push({
             title: child.data?.title || 'Subtopic',
             items: grandchildren.length
-              ? grandchildren.map((g: any) => g.data?.title + (g.data?.content ? ` — ${g.data.content.substring(0, 100)}` : ''))
+              ? grandchildren.map((g: any) => g.data?.title + (g.data?.content ? ` - ${g.data.content.substring(0, 100)}` : ''))
               : child.data?.content ? [child.data.content] : [],
             level: 2,
           });
@@ -101,14 +101,14 @@ function generatePPTX(nodes: any[], title: string) {
 
   // Generate PPTX XML (simplified Office Open XML)
   const slideXmls = slides.map((slide, idx) => buildSlideXml(slide, idx));
-  
+
   // Build the PPTX as an HTML download trigger
   // In production, use pptxgenjs on server. For now, return structured data for client-side generation
   return NextResponse.json({
     format: 'pptx',
     slides: slides,
     filename: `${title.replace(/[^a-zA-Z0-9]/g, '_')}.pptx`,
-    clientGenerate: true, // Signal client to generate using pptxgenjs
+    clientGenerate: true,
   });
 }
 
@@ -131,10 +131,10 @@ function buildSlideXml(slide: { title: string; items: string[]; level: number },
 // ============================================
 function generateDOCX(nodes: any[], title: string) {
   const roots = nodes.filter((n: any) => !n.parentId);
-  
+
   // Build document structure
   const sections: { level: number; title: string; content: string; media?: any[] }[] = [];
-  
+
   roots.forEach((root: any) => {
     sections.push({
       level: 1,
@@ -179,7 +179,7 @@ function buildDocSections(nodes: any[], parentId: string, level: number, section
 // ============================================
 function generatePDFDoc(nodes: any[], title: string) {
   const roots = nodes.filter((n: any) => !n.parentId);
-  
+
   const sections: any[] = [];
   roots.forEach((root: any) => {
     sections.push({
