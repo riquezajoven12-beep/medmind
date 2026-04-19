@@ -1,9 +1,9 @@
 // ============================================
-// Stripe Checkout — /api/stripe/checkout
+// Stripe Checkout - /api/stripe/checkout
 // ============================================
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerSupabase } from '@/lib/supabase';
+import { createServerSupabase } from '@/lib/supabase-server';
 import { createCheckoutSession, getOrCreateCustomer, createCustomerPortalSession } from '@/lib/stripe';
 
 export async function POST(req: NextRequest) {
