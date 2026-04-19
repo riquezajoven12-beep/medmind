@@ -1,9 +1,9 @@
 // ============================================
-// AI API Route — /api/ai
+// AI API Route - /api/ai
 // ============================================
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerSupabase } from '@/lib/supabase';
+import { createServerSupabase } from '@/lib/supabase-server';
 import { processAIRequest, checkAILimit } from '@/lib/ai';
 import type { AIRequest } from '@/types';
 
