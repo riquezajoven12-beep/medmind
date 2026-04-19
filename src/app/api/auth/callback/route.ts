@@ -1,8 +1,8 @@
 // ============================================
-// Auth Callback — handles OAuth redirects
+// Auth Callback - handles OAuth redirects
 // ============================================
 
-import { createServerSupabase } from '@/lib/supabase';
+import { createServerSupabase } from '@/lib/supabase-server';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
