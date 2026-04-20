@@ -1,11 +1,11 @@
 // ============================================
-// Maps CRUD API - /api/maps
+// Maps CRUD API â€” /api/maps
 // ============================================
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerSupabase } from '@/lib/supabase-server';
 
-// GET - List user's maps
+// GET â€” List user's maps
 export async function GET(req: NextRequest) {
   const supabase = await createServerSupabase();
   const { data: { user } } = await supabase.auth.getUser();
@@ -36,7 +36,7 @@ export async function GET(req: NextRequest) {
   return NextResponse.json(data);
 }
 
-// POST - Create new map
+// POST â€” Create new map
 export async function POST(req: NextRequest) {
   const supabase = await createServerSupabase();
   const { data: { user } } = await supabase.auth.getUser();
@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
       title: body.title || 'Untitled Map',
       description: body.description || null,
       cover_color: body.cover_color || '#06d6a0',
-      icon: body.icon || '🧠',
+      icon: body.icon || 'ðŸ§ ',
       canvas_data: body.canvas_data || {
         nodes: [{
           id: 'root-1',
@@ -75,6 +75,7 @@ export async function POST(req: NextRequest) {
             icon: null,
             collapsed: false,
             media: [],
+            blocks: [],
             aiGenerated: false,
             tags: [],
             style: {},
@@ -101,7 +102,7 @@ export async function POST(req: NextRequest) {
   return NextResponse.json(data);
 }
 
-// PATCH - Update map
+// PATCH â€” Update map
 export async function PATCH(req: NextRequest) {
   const supabase = await createServerSupabase();
   const { data: { user } } = await supabase.auth.getUser();
@@ -136,7 +137,7 @@ export async function PATCH(req: NextRequest) {
   return NextResponse.json(data);
 }
 
-// DELETE - Delete map
+// DELETE â€” Delete map
 export async function DELETE(req: NextRequest) {
   const supabase = await createServerSupabase();
   const { data: { user } } = await supabase.auth.getUser();
