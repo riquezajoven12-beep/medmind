@@ -1,5 +1,5 @@
 // ============================================
-// Shared Map Viewer — /map/shared/[token]
+// Shared Map Viewer â€” /map/shared/[token]
 // Public read-only view via share token
 // ============================================
 'use client';
@@ -56,10 +56,10 @@ export default function SharedMapPage() {
     return (
       <div className="min-h-screen bg-navy-950 flex items-center justify-center">
         <div className="text-center">
-          <div className="text-6xl mb-4">🔒</div>
+          <div className="text-6xl mb-4">ðŸ”’</div>
           <h1 className="text-xl font-semibold text-white mb-2">{error}</h1>
           <p className="text-sm text-slate-500 mb-6">This map may have been unshared or deleted.</p>
-          <Link href="/" className="text-brand-400 text-sm hover:underline">Go to MedMind →</Link>
+          <Link href="/" className="text-brand-400 text-sm hover:underline">Go to MedMind â†’</Link>
         </div>
       </div>
     );
@@ -85,7 +85,7 @@ export default function SharedMapPage() {
       <header className="h-12 bg-navy-950/95 backdrop-blur-xl border-b border-slate-800/50 flex items-center px-4 shrink-0 z-50">
         <Link href="/" className="font-display text-lg gradient-text mr-4">MedMind</Link>
         <span className="text-white font-medium text-sm">{map.title}</span>
-        <span className="text-xs text-slate-600 ml-3">{nodes.length} nodes · Read only</span>
+        <span className="text-xs text-slate-600 ml-3">{nodes.length} nodes Â· Read only</span>
         <div className="flex-1" />
         {map.owner_name && (
           <span className="text-xs text-slate-500">
@@ -115,8 +115,51 @@ export default function SharedMapPage() {
                   {node.data.title}
                 </div>
                 {node.data.content && <div className="text-xs text-slate-400 mt-1 leading-relaxed">{node.data.content}</div>}
-                {node.data.media?.filter(m => m.type === 'image').map(m => (
+                {(node.data.blocks || []).map(block => {
+                  if (block.type === 'bullet-list') {
+                    return (
+                      <ul key={block.id} className="mt-2 list-disc pl-4 text-xs text-slate-300 space-y-1">
+                        {(block.bullets || []).map((bullet, index) => (
+                          <li key={index}>{bullet}</li>
+                        ))}
+                      </ul>
+                    );
+                  }
+
+                  if (block.type === 'table') {
+                    return (
+                      <div key={block.id} className="mt-2 overflow-hidden rounded-lg border border-slate-800/70">
+                        <table className="w-full text-left text-[11px] text-slate-300">
+                          <tbody>
+                            {(block.rows || []).map((row, rowIndex) => (
+                              <tr key={rowIndex} className="border-b border-slate-800/60 last:border-b-0">
+                                {row.map((cell, cellIndex) => (
+                                  <td key={cellIndex} className="px-2 py-1.5">{cell}</td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    );
+                  }
+
+                  if (block.type === 'excerpt') {
+                    return <blockquote key={block.id} className="mt-2 border-l-2 border-violet-400/60 pl-3 text-xs italic text-violet-200/90">{block.text}</blockquote>;
+                  }
+
+                  if (block.type === 'note') {
+                    return <div key={block.id} className="mt-2 rounded-lg border border-amber-400/20 bg-amber-500/10 px-3 py-2 text-xs text-amber-100/90">{block.text}</div>;
+                  }
+
+                  return <p key={block.id} className="mt-2 text-xs leading-relaxed text-slate-300">{block.text}</p>;
+                })}
+                {node.data.media?.map(m => m.type === 'image' ? (
                   <img key={m.id} src={m.url} alt={m.name} className="max-w-full max-h-20 rounded-lg mt-2 object-cover" />
+                ) : m.type === 'video' ? (
+                  <video key={m.id} controls src={m.url} className="w-full max-h-28 rounded-lg mt-2 bg-black/30" />
+                ) : (
+                  <audio key={m.id} controls src={m.url} className="w-full h-7 mt-2" />
                 ))}
               </div>
             );
