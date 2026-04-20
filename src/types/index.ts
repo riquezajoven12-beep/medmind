@@ -1,5 +1,5 @@
 // ============================================
-// MEDMIND — Type Definitions
+// MEDMIND â€” Type Definitions
 // ============================================
 
 export type SubscriptionTier = 'free' | 'pro' | 'team';
@@ -8,6 +8,7 @@ export type Theme = 'dark' | 'light' | 'system';
 export type LayoutType = 'radial' | 'tree' | 'horizontal';
 export type ViewMode = 'mindmap' | 'document' | 'presentation' | 'outline';
 export type MediaType = 'image' | 'audio' | 'pdf' | 'video';
+export type NodeContentBlockType = 'paragraph' | 'excerpt' | 'table' | 'bullet-list' | 'note';
 
 // ---- User ----
 export interface Profile {
@@ -72,6 +73,7 @@ export interface MindMapNode {
     icon: string | null;
     collapsed: boolean;
     media: NodeMedia[];
+    blocks?: NodeContentBlock[];
     aiGenerated: boolean;
     tags: string[];
     style: {
@@ -84,6 +86,14 @@ export interface MindMapNode {
     };
   };
   parentId: string | null;
+}
+
+export interface NodeContentBlock {
+  id: string;
+  type: NodeContentBlockType;
+  text?: string;
+  bullets?: string[];
+  rows?: string[][];
 }
 
 export interface MindMapEdge {
