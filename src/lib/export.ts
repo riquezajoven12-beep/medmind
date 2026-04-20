@@ -573,7 +573,8 @@ function renderPDFChildren(
     // Heading
     pdf.setFont('helvetica', level <= 2 ? 'bold' : 'normal');
     pdf.setFontSize(fontSize);
-    pdf.setTextColor(...(level <= 2 ? accent : colors.text));
+    const headingColor = level <= 2 ? accent : (colors.text as [number, number, number]);
+    pdf.setTextColor(headingColor[0], headingColor[1], headingColor[2]);
     
     const titlePrefix = level > 2 ? '▸ ' : '';
     pdf.text(`${titlePrefix}${child.data.title}`, margin + indent, y);
