@@ -3,13 +3,25 @@
 // ============================================
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase';
 import { toast } from 'sonner';
 
 export default function LoginPage() {
+  return (
+    <Suspense fallback={<LoginPageFallback />}>
+      <LoginPageContent />
+    </Suspense>
+  );
+}
+
+function LoginPageFallback() {
+  return <div className="min-h-screen bg-navy-950" />;
+}
+
+function LoginPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get('redirect') || '/dashboard';
@@ -102,7 +114,7 @@ export default function LoginPage() {
                 onChange={e => setPassword(e.target.value)}
                 required
                 className="w-full bg-navy-950 border border-slate-700 focus:border-brand-500 rounded-xl px-4 py-3 text-sm text-white outline-none transition"
-                placeholder="••••••••"
+                placeholder="********"
               />
             </div>
             <button
